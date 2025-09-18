@@ -26,8 +26,8 @@ jobs:
         with:
           repository: joncampbell123/dosbox-x
           path: dosbox-x-src
-          # ▼▼▼ ここを修正しました ▼▼▼
-          ref: refs/tags/v2024.03.01
+          # ▼▼▼ ここを正しいタグ名に修正しました ▼▼▼
+          ref: refs/tags/dosbox-x-v2024.03.01
 
       # 3. Emscripten (emsdk)のセットアップ
       - name: Setup Emscripten
