@@ -26,7 +26,6 @@ jobs:
         with:
           repository: joncampbell123/dosbox-x
           path: dosbox-x-src
-          # ▼▼▼ ここを正しいタグ名に修正しました ▼▼▼
           ref: refs/tags/dosbox-x-v2024.03.01
 
       # 3. Emscripten (emsdk)のセットアップ
@@ -51,24 +50,27 @@ jobs:
           dd if=/dev/zero of=generated-disks/win95.img bs=1M count=2048
           
           echo "Downloading win95.iso from Releases..."
-          # ▼▼▼ あなたのGitHub ReleaseのISO URLに書き換えてください ▼▼▼
           curl -L -o generated-disks/win95.iso "https://github.com/Emon2358/dos/releases/download//win95.iso"
-          # ▲▲▲ あなたのGitHub ReleaseのISO URLに書き換えてください ▲▲▲
 
       # 5. ビルドに必要なライブラリをインストール
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y automake libtool-bin
+          # ▼▼▼ ここに libsdl2-dev を追加しました ▼▼▼
+          sudo apt-get install -y automake libtool-bin libsdl2-dev
 
       # 6. DOSBox-Xのビルド
       - name: Build DOSBox-X with Emscripten
         run: |
           cd dosbox-x-src
           ./autogen.sh
+          # ▼▼▼ configureのオプションを修正しました ▼▼▼
           emconfigure ./configure \
-            --host=wasm32-unknown-emscripten --with-sdl2 --enable-static --disable-shared \
-            --disable-avcodec --disable-opengl --disable-network --disable-printer --disable-slirp
+            --host=wasm32-unknown-emscripten \
+            --enable-sdl2 \
+            --disable-avcodec \
+            --disable-opengl \
+            --disable-printer
           emmake make -j$(nproc)
           cd ..
 
