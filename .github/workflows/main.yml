@@ -26,7 +26,8 @@ jobs:
         with:
           repository: joncampbell123/dosbox-x
           path: dosbox-x-src
-          ref: v2024.03.01
+          # ▼▼▼ ここを修正しました ▼▼▼
+          ref: refs/tags/v2024.03.01
 
       # 3. Emscripten (emsdk)のセットアップ
       - name: Setup Emscripten
@@ -39,20 +40,19 @@ jobs:
         id: cache-disks
         uses: actions/cache@v4
         with:
-          path: generated-disks # キャッシュするディレクトリ
-          key: ${{ runner.os }}-disks-win95-v2 # キーを変更するとキャッシュが作り直されます
+          path: generated-disks
+          key: ${{ runner.os }}-disks-win95-v2
 
       - name: Create/Download disk images if not cached
         if: steps.cache-disks.outputs.cache-hit != 'true'
         run: |
           mkdir -p generated-disks
           echo "Cache not found. Creating a new 2GB disk image..."
-          # ▼▼▼ ここで2GBの空のイメージファイルを作成します ▼▼▼
           dd if=/dev/zero of=generated-disks/win95.img bs=1M count=2048
           
           echo "Downloading win95.iso from Releases..."
           # ▼▼▼ あなたのGitHub ReleaseのISO URLに書き換えてください ▼▼▼
-          curl -L -o generated-disks/win95.iso "https://github.com/Emon2358/dos/releases/download/win95/win95.iso"
+          curl -L -o generated-disks/win95.iso "https://github.com/Emon2358/dos/releases/download//win95.iso"
           # ▲▲▲ あなたのGitHub ReleaseのISO URLに書き換えてください ▲▲▲
 
       # 5. ビルドに必要なライブラリをインストール
@@ -79,11 +79,9 @@ jobs:
           cp dosbox-x-src/src/dosbox-x.html _site/index.html
           cp dosbox-x-src/src/dosbox-x.js _site/
           cp dosbox-x-src/src/dosbox-x.wasm _site/
-          # 作成/復元したディスクイメージをコピー
           mkdir _site/disks
           cp generated-disks/win95.img _site/disks/
           cp generated-disks/win95.iso _site/disks/
-          # dosbox.confを自動生成
           echo "[autoexec]
           mount c disks
           imgmount d disks/win95.iso -t iso
