@@ -24,6 +24,7 @@ jobs:
       - name: Checkout DOSBox-X source code
         uses: actions/checkout@v4
         with:
+          # ▼▼▼ リポジトリ名を正しいものに修正しました ▼▼▼
           repository: joncampbell123/dosbox-x
           path: dosbox-x-src
           ref: refs/tags/dosbox-x-v2024.03.01
@@ -51,14 +52,14 @@ jobs:
           
           echo "Downloading win95.iso from Releases..."
           # ▼▼▼ あなたのGitHub ReleaseのISO URLに書き換えてください ▼▼▼
-          curl -L -o generated-disks/win95.iso "https://github.com/Emon2358/dos/releases/download/win95.iso"
+          curl -L -o generated-disks/win95.iso "https://github.com/Emon2358/dosreleases/download/win95.iso"
           # ▲▲▲ あなたのGitHub ReleaseのISO URLに書き換えてください ▲▲▲
 
       # 5. ビルドに必要なライブラリをインストール
       - name: Install dependencies
         run: |
           sudo apt-get update
-          # ▼▼▼ ここに zlib1g-dev を追加しました ▼▼▼
+          # ▼▼▼ zlib1g-dev を追加しました ▼▼▼
           sudo apt-get install -y automake libtool-bin libsdl2-dev zlib1g-dev
 
       # 6. DOSBox-Xのビルド
