@@ -52,7 +52,7 @@ jobs:
           
           echo "Downloading win95.iso from Releases..."
           # ▼▼▼ あなたのGitHub ReleaseのISO URLに書き換えてください ▼▼▼
-          curl -L -o generated-disks/win95.iso "https://github.com/Emon2358/dos/releases/download/v1.0.0-assets/win95.iso"
+          curl -L -o generated-disks/win95.iso "https://github.com/Emon2358/dos/releases/download/win95/win95.iso"
           # ▲▲▲ あなたのGitHub ReleaseのISO URLに書き換えてください ▲▲▲
 
       # 5. ビルドに必要なライブラリをインストール
